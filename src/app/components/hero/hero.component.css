@@ -1,0 +1,7 @@
+.hero-bg {
+  background-size: cover;
+}
+
+.hero-content {
+  transition: all 1000ms ease-in-out;
+}

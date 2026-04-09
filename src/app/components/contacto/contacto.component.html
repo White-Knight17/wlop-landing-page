@@ -1,0 +1,134 @@
+<section
+  id="contacto"
+  class="relative min-h-screen w-full overflow-hidden"
+  role="form"
+  aria-labelledby="contacto-title"
+>
+  <!-- Background Image -->
+  <div
+    class="absolute inset-0 bg-cover bg-center bg-no-repeat contacto-bg"
+    [style.backgroundImage]="'url(assets/contact/wlop-contact.webp)'"
+    aria-hidden="true"
+  ></div>
+
+  <!-- Overlay -->
+  <div class="absolute inset-0 bg-black/70"></div>
+
+  <!-- Content -->
+  <div class="relative z-10 max-w-7xl mx-auto px-4 py-20">
+    <h2 id="contacto-title" class="text-4xl md:text-5xl font-bold text-[#d4af37] text-center mb-12">
+      Contacto
+    </h2>
+
+    <div class="grid md:grid-cols-2 gap-12">
+      <!-- Form - Left Side -->
+      <div
+        class="bg-black/60 backdrop-blur-sm p-8 rounded-lg border border-[#d4af37]/30 contacto-form"
+      >
+        <!-- Error messages container -->
+        <div
+          *ngIf="errors.length > 0"
+          class="mb-4 p-3 bg-red-900/50 border border-red-500 rounded text-red-200"
+          role="alert"
+          aria-live="polite"
+        >
+          <p *ngFor="let error of errors" class="text-sm">{{ error.message }}</p>
+        </div>
+
+        <form (ngSubmit)="onSubmit()" class="space-y-6" novalidate>
+          <div>
+            <label for="nombre" class="block text-white mb-2 font-medium">Nombre completo</label>
+            <input
+              id="nombre"
+              type="text"
+              [(ngModel)]="formData.nombre"
+              name="nombre"
+              aria-required="true"
+              [attr.aria-invalid]="errors.some(e => e.field === 'nombre')"
+              [attr.aria-describedby]="errors.some(e => e.field === 'nombre') ? 'nombre-error' : null"
+              class="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 focus:border-[#d4af37] focus:outline-none transition-colors form-input"
+              placeholder="Tu nombre"
+              required
+            />
+            <p
+              *ngIf="errors.some(e => e.field === 'nombre')"
+              id="nombre-error"
+              class="text-red-400 text-sm mt-1"
+              role="alert"
+            >
+              {{ errors[0].message }}
+            </p>
+          </div>
+
+          <div>
+            <label for="mail" class="block text-white mb-2 font-medium">Mail</label>
+            <input
+              id="mail"
+              type="email"
+              [(ngModel)]="formData.mail"
+              name="mail"
+              aria-required="true"
+              [attr.aria-invalid]="errors.some(e => e.field === 'mail')"
+              [attr.aria-describedby]="errors.some(e => e.field === 'mail') ? 'mail-error' : null"
+              class="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 focus:border-[#d4af37] focus:outline-none transition-colors form-input"
+              placeholder="tu@email.com"
+              required
+            />
+            <p
+              *ngIf="errors.some(e => e.field === 'mail')"
+              id="mail-error"
+              class="text-red-400 text-sm mt-1"
+              role="alert"
+            >
+              {{ errors[0].message }}
+            </p>
+          </div>
+
+          <div>
+            <label for="asunto" class="block text-white mb-2 font-medium">Asunto</label>
+            <input
+              id="asunto"
+              type="text"
+              [(ngModel)]="formData.asunto"
+              name="asunto"
+              aria-required="true"
+              [attr.aria-invalid]="errors.some(e => e.field === 'asunto')"
+              [attr.aria-describedby]="errors.some(e => e.field === 'asunto') ? 'asunto-error' : null"
+              class="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 focus:border-[#d4af37] focus:outline-none transition-colors form-input"
+              placeholder="Asunto de tu mensaje"
+              required
+            />
+            <p
+              *ngIf="errors.some(e => e.field === 'asunto')"
+              id="asunto-error"
+              class="text-red-400 text-sm mt-1"
+              role="alert"
+            >
+              {{ errors[0].message }}
+            </p>
+          </div>
+
+          <button
+            type="submit"
+            class="w-full bg-[#d4af37] hover:bg-[#b8962e] text-black font-bold py-3 px-6 rounded-lg transition-colors submit-btn focus:outline-none focus:ring-2 focus:ring-[#d4af37] focus:ring-offset-2 focus:ring-offset-black"
+          >
+            Enviar mensaje
+          </button>
+        </form>
+      </div>
+
+      <!-- Info - Right Side -->
+      <div class="flex flex-col justify-center text-white space-y-6">
+        <h3 class="text-2xl font-bold text-[#d4af37]">¿Tienes alguna consulta?</h3>
+        <p class="text-white/80 leading-relaxed">
+          No dudes en contactarme para cualquier pregunta sobre mis trabajos, colaboraciones o
+          simplemente para saludar.
+        </p>
+        <div class="space-y-2">
+          <p><span class="text-[#d4af37] font-medium">Email:</span> contacto&#64;wlop.art</p>
+          <p><span class="text-[#d4af37] font-medium">Ubicación:</span> China</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

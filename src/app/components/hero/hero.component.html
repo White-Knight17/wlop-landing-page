@@ -1,0 +1,33 @@
+<section id="hero" class="relative h-screen w-full overflow-hidden">
+  <!-- Particles Canvas -->
+  <canvas
+    #particleCanvas
+    class="absolute inset-0 z-[1] pointer-events-none"
+    aria-hidden="true"
+  ></canvas>
+
+  <!-- Background Image -->
+  <div
+    class="absolute inset-0 bg-cover bg-center bg-no-repeat transition-all duration-[3000ms] ease-in-out hero-bg"
+    [class.blur-sm]="showText()"
+    [style.backgroundImage]="'url(assets/hero/wlop-hero.webp)'"
+  ></div>
+
+  <!-- Overlay for better text visibility -->
+  <div class="absolute inset-0 bg-black/40"></div>
+
+  <!-- Text Content -->
+  <div
+    class="relative z-10 flex flex-col items-center justify-center h-full text-center px-4 hero-content"
+    [class.opacity-0]="!showText()"
+    [class.translate-y-8]="!showText()"
+    [class.opacity-100]="showText()"
+    [class.translate-y-0]="showText()"
+  >
+    <h1 class="text-6xl md:text-8xl font-bold text-[#d4af37] mb-4 tracking-wider">WLOP</h1>
+    <p class="text-xl md:text-2xl text-white/90 max-w-2xl">
+      Artista digital excepcional que da vida a personajes memorables a través de su estilo único y
+      detallado.
+    </p>
+  </div>
+</section>

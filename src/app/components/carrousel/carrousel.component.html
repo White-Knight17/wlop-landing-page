@@ -1,0 +1,123 @@
+<section
+  id="section-galeria"
+  class="relative min-h-screen bg-black overflow-hidden flex flex-col py-8"
+>
+  <!-- Title -->
+  <div class="pb-6 flex justify-center">
+    <h2 class="text-4xl md:text-5xl font-bold text-[#d4af37]">Galeria</h2>
+  </div>
+
+  <!-- Grid: Parallelogram items -->
+  <div class="flex flex-1 items-center justify-center px-8">
+    <div class="grid grid-cols-4 gap-4 max-w-6xl">
+      <div
+        *ngFor="let image of images; let i = index"
+        class="parallelogram-item cursor-pointer"
+        [class.active]="hoveredIndex() === i"
+        (mouseenter)="onHover(i)"
+        (mouseleave)="onLeave()"
+        (click)="openModal(i)"
+      >
+        <div class="parallelogram-content">
+          <img
+            [src]="'assets/galeria/' + image"
+            [alt]="'Gallery image ' + (i + 1)"
+            class="w-full h-full object-cover"
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal for Desktop -->
+  <div
+    *ngIf="modalOpen() && isDesktop()"
+    class="fixed inset-0 z-50 flex items-center justify-center modal-overlay"
+    role="dialog"
+    aria-modal="true"
+    aria-label="Galería de imágenes"
+    (click)="closeModal()"
+  >
+    <button
+      #closeBtn
+      class="modal-close-btn"
+      (click)="closeModal(); $event.stopPropagation()"
+      aria-label="Cerrar modal"
+    >
+      ✕
+    </button>
+    <button
+      class="modal-arrow modal-arrow-left"
+      (click)="prevImage(); $event.stopPropagation()"
+      aria-label="Imagen anterior"
+    >
+      ‹
+    </button>
+    <div
+      class="modal-image-container"
+      [class.slide-left]="slideDirection() === 'left'"
+      [class.slide-right]="slideDirection() === 'right'"
+      (click)="$event.stopPropagation()"
+    >
+      <img
+        [src]="'assets/galeria/' + images[modalImageIndex()]"
+        [alt]="'Gallery image ' + (modalImageIndex() + 1)"
+        class="modal-full-image"
+        (load)="onImageLoad($event)"
+      />
+    </div>
+    <button
+      class="modal-arrow modal-arrow-right"
+      (click)="nextImage(); $event.stopPropagation()"
+      aria-label="Siguiente imagen"
+    >
+      ›
+    </button>
+  </div>
+
+  <!-- Modal for Mobile/Tablet -->
+  <div
+    *ngIf="modalOpen() && !isDesktop()"
+    class="fixed inset-0 z-50 flex items-center justify-center modal-overlay"
+    role="dialog"
+    aria-modal="true"
+    aria-label="Galería de imágenes"
+    (click)="closeModal()"
+  >
+    <button
+      class="modal-close-btn-mobile"
+      (click)="closeModal(); $event.stopPropagation()"
+      aria-label="Cerrar modal"
+    >
+      ✕
+    </button>
+    <button
+      class="modal-arrow-mobile modal-arrow-left"
+      (click)="prevImage(); $event.stopPropagation()"
+      aria-label="Imagen anterior"
+    >
+      ‹
+    </button>
+    <div
+      class="modal-image-container-mobile"
+      [class.slide-left]="slideDirection() === 'left'"
+      [class.slide-right]="slideDirection() === 'right'"
+      (click)="$event.stopPropagation()"
+    >
+      <img
+        [src]="'assets/galeria/' + images[modalImageIndex()]"
+        [alt]="'Gallery image ' + (modalImageIndex() + 1)"
+        class="modal-full-image-mobile"
+      />
+    </div>
+    <button
+      class="modal-arrow-mobile modal-arrow-right"
+      (click)="nextImage(); $event.stopPropagation()"
+      aria-label="Siguiente imagen"
+    >
+      ›
+    </button>
+  </div>
+</section>

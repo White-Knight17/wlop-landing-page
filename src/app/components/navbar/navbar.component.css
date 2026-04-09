@@ -1,0 +1,56 @@
+.navbar-container.scrolled {
+  box-shadow:
+    0 0 20px rgba(212, 175, 55, 0.2),
+    0 0 40px rgba(212, 175, 55, 0.1);
+  animation: golden-pulse 4s ease-in-out infinite;
+
+  /* Glassmorphism effect */
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  background-color: rgba(0, 0, 0, 0.85);
+  border: 1px solid rgba(212, 175, 55, 0.2);
+}
+
+/* Fallback for browsers without backdrop-filter */
+@supports not (backdrop-filter: blur(12px)) {
+  .navbar-container.scrolled {
+    background-color: rgba(0, 0, 0, 0.95);
+  }
+}
+
+@keyframes golden-pulse {
+  0%,
+  100% {
+    box-shadow:
+      0 0 20px rgba(212, 175, 55, 0.3),
+      0 0 40px rgba(212, 175, 55, 0.1);
+  }
+  25% {
+    box-shadow:
+      0 0 30px rgba(212, 175, 55, 0.5),
+      0 0 60px rgba(212, 175, 55, 0.2);
+  }
+  50% {
+    box-shadow:
+      0 0 20px rgba(212, 175, 55, 0.3),
+      0 0 40px rgba(212, 175, 55, 0.1);
+  }
+  75% {
+    box-shadow:
+      0 0 30px rgba(212, 175, 55, 0.5),
+      0 0 60px rgba(212, 175, 55, 0.2);
+  }
+}
+
+.logo-brand {
+  overflow: hidden;
+}
+
+.menu-item:hover .hover-bg {
+  opacity: 0.2;
+}
+
+/* Smooth transitions */
+.navbar-container {
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}

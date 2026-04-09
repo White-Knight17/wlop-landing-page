@@ -1,0 +1,42 @@
+<nav
+  class="fixed top-4 left-0 right-0 z-50 flex justify-center"
+  role="navigation"
+  aria-label="Navegación principal"
+>
+  <div
+    class="flex items-center px-6 py-3 rounded-full transition-all duration-500 ease-in-out navbar-container"
+    [class.bg-black]="scrolled()"
+    [class.bg-transparent]="!scrolled()"
+    [class.scrolled]="scrolled()"
+  >
+    <!-- Logo Brand - disappears on scroll down -->
+    <div
+      class="text-xl font-bold text-[#d4af37] transition-all duration-500 ease-in-out mr-6 logo-brand"
+      [class.opacity-0]="scrolled()"
+      [class.w-0]="scrolled()"
+      [class.opacity-100]="!scrolled()"
+      [class.w-auto]="!scrolled()"
+    >
+      WLOP
+    </div>
+
+    <!-- Menu - centered in the rectangle -->
+    <div class="flex gap-2" role="menubar">
+      <a
+        *ngFor="let item of menuItems; let i = index"
+        (click)="scrollTo(item.id)"
+        (keydown.enter)="scrollTo(item.id)"
+        (keydown.space)="scrollTo(item.id); $event.preventDefault()"
+        role="menuitem"
+        [attr.aria-label]="item.label"
+        tabindex="0"
+        class="relative px-4 py-2 text-[#d4af37] hover:text-white focus:text-white focus:outline-none focus:ring-2 focus:ring-[#d4af37] focus:ring-offset-2 focus:ring-offset-black transition-all duration-300 cursor-pointer text-sm font-medium uppercase tracking-wider menu-item"
+      >
+        <span class="relative z-10">{{ item.label }}</span>
+        <span
+          class="absolute inset-0 bg-[#d4af37] opacity-0 group-hover:opacity-20 focus:opacity-20 rounded-full transition-opacity duration-300"
+        ></span>
+      </a>
+    </div>
+  </div>
+</nav>
