@@ -1,7 +1,6 @@
 .parallelogram-item {
   position: relative;
   width: 100%;
-  min-height: 280px;
   height: 180px;
   aspect-ratio: 3/4;
   transform: skewX(-15deg);
@@ -10,7 +9,8 @@
   overflow: hidden;
   border: 2px solid rgba(212, 175, 55, 0.3);
   display: block;
-  opacity: 1;
+  /* Force visibility - fix for GSAP opacity bug */
+  opacity: 1 !important;
 }
 
 .parallelogram-content {
@@ -25,7 +25,8 @@
   object-fit: cover;
   transform: skewX(0deg);
   transition: transform 0.9s ease;
-  opacity: 1;
+  /* Force image visibility */
+  opacity: 1 !important;
 }
 
 .parallelogram-item:hover {
@@ -190,7 +191,7 @@
   width: 90vw;
   max-width: 1200px;
   height: 70vh;
-  max-height: 700px;
+  max-height: 900px;
   transform: skewX(-15deg);
   overflow: hidden;
   border: 3px solid rgba(212, 175, 55, 0.8);
@@ -358,7 +359,7 @@
 
 .modal-full-image-mobile {
   max-width: 100%;
-  max-height: 65vh;
+  max-height: 85vh;
   object-fit: contain;
   border: 3px solid rgba(212, 175, 55, 0.8);
   box-shadow: 0 0 30px rgba(212, 175, 55, 0.4);
@@ -378,7 +379,7 @@
 @media (min-width: 640px) {
   .modal-arrow-mobile {
     width: 50px;
-    height: 50px;
+    height: 30px;
     font-size: 28px;
   }
 
