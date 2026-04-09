@@ -1,59 +1,95 @@
-# ProtipoLandingPage
+# WLOP Portfolio - Landing Page
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.1.
+Portfolio profesional para el artista digital WLOP, showcasing su trabajo con animaciones avanzadas y una experiencia visual inmersiva.
 
-## Development server
+## 🛠️ Tecnologías
 
-To start a local development server, run:
+| Tecnología               | Propósito                               |
+| ------------------------ | --------------------------------------- |
+| **Angular 21**           | Framework con Standalone Components     |
+| **TypeScript**           | Tipado estricto                         |
+| **GSAP + ScrollTrigger** | Animaciones avanzadas basadas en scroll |
+| **Lenis**                | Smooth scroll para experiencia fluida   |
+| **Font Awesome**         | Iconos (ArtStation)                     |
+
+## 🎯 Highlights del Proyecto
+
+### Animaciones GSAP Avanzadas
+
+- **Pinned Sections** — Alice, Fiama y Mica se fijan durante el scroll con transiciones fluidas
+- **Stagger Effects** — Las imágenes de la galería aparecen con delays escalonados
+- **ScrollTrigger** — Animaciones que se ejecutan al entrar en viewport
+- **Parallax** — Efecto de profundidad en el hero
+
+### Smooth Scroll con Lenis
+
+- Experiencia de scroll premium y fluida
+- Configuración personalizada para evitar conflictos con GSAP
+
+### Modal Interactivo
+
+- Transiciones de barrido (slide animations)
+- Navegación por teclado (Escape, Flechas)
+- Click fuera para cerrar
+- Diseño responsive (desktop/mobile)
+
+### Performance
+
+- **WebP** — Todas las imágenes convertidas (~60% más liviano)
+- **Lazy loading** — Imágenes y rutas optimizadas
+
+### UX/UI
+
+- Diseño con estética dorada (#d4af37)
+- Efectos hover con glow dorado
+- Glassmorphism en el navbar
+- Partículas flotantes en el hero (Canvas)
+- Responsive completo (Mobile → Tablet → Desktop)
+
+### SEO & Accesibilidad
+
+- Meta tags, Open Graph, Twitter Cards
+- JSON-LD Schema
+- Skip link para navegación por teclado
+- ARIA labels y roles
+- Focus visible personalizado
+- Formulario con validación
+
+## 📁 Estructura
+
+```
+src/
+├── app/
+│   ├── components/
+│   │   ├── alice/          # Pinned section
+│   │   ├── carrousel/      # Galería + Modal
+│   │   ├── contacto/       # Formulario
+│   │   ├── fiama/          # Pinned section
+│   │   ├── footer/         # Disclaimer + ArtStation
+│   │   ├── hero/           # Partículas + blur
+│   │   ├── mica/           # Pinned section
+│   │   └── navbar/         # Navigation
+│   ├── app.ts              # GSAP + Lenis setup
+│   └── app.css             # Estilos globales
+├── assets/                 # Imágenes WebP
+├── index.html              # SEO meta tags
+└── manifest.json           # PWA
+```
+
+## 🚀 Ejecución
 
 ```bash
+npm install
 ng serve
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+## 📝 Notas Legales
 
-## Code scaffolding
+- Todas las ilustraciones son propiedad de **WLOP**
+- Esta página es una **demo** de habilidades frontend
+- No se obtiene ningún beneficio económico
+- ArtStation: https://www.artstation.com/wlop
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+---
 
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+**Demo de portfolio** — Angular 21 + GSAP + Lenis
