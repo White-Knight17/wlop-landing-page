@@ -1,0 +1,14 @@
+{
+  "$schema": "https://googleapis.github.io/release-please/manifest.json",
+  "packages": {
+    ".": {
+      "component": "",
+      "release-type": "node",
+      "bump-minor-pre-major": true,
+      "bump-patch-for-minor-pre-major": false,
+      "changelog-path": "CHANGELOG.md",
+      "changelog-type": "github"
+    }
+  },
+  "repo-url": "https://github.com/White-Knight17/wlop-landing-page.git"
+}
