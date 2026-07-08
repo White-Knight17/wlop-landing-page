@@ -35,13 +35,16 @@ export class HeroComponent implements OnInit, AfterViewInit, OnDestroy {
   private particles: Particle[] = [];
   private animationId: number | null = null;
   private canvas: HTMLCanvasElement | null = null;
+  private boundResize: (() => void) | null = null;
 
   constructor(@Inject(PLATFORM_ID) private platformId: object) {}
 
   ngOnInit() {
-    setTimeout(() => {
-      this.showText.set(true);
-    }, 3000);
+    if (isPlatformBrowser(this.platformId)) {
+      setTimeout(() => {
+        this.showText.set(true);
+      }, 3000);
+    }
   }
 
   ngAfterViewInit() {
@@ -54,6 +57,9 @@ export class HeroComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.animationId) {
       cancelAnimationFrame(this.animationId);
     }
+    if (this.boundResize) {
+      window.removeEventListener('resize', this.boundResize);
+    }
   }
 
   private initParticles() {
@@ -64,7 +70,8 @@ export class HeroComponent implements OnInit, AfterViewInit, OnDestroy {
     if (!this.ctx) return;
 
     this.resizeCanvas();
-    window.addEventListener('resize', () => this.resizeCanvas());
+    this.boundResize = () => this.resizeCanvas();
+    window.addEventListener('resize', this.boundResize);
 
     // Reduce particles on mobile
     const isMobile = window.innerWidth < 768;

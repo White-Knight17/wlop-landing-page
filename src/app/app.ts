@@ -23,7 +23,8 @@ import { CarrouselComponent } from './components/carrousel/carrousel.component';
 import { ContactoComponent } from './components/contacto/contacto.component';
 import { FooterComponent } from './components/footer/footer.component';
 
-gsap.registerPlugin(ScrollTrigger);
+// ⚠️ DO NOT register ScrollTrigger at module level — crashes SSR.
+// Registration happens inside ngAfterViewInit behind isPlatformBrowser.
 
 @Component({
   selector: 'app-root',
@@ -91,14 +92,22 @@ export class App implements AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit() {
-    if (isPlatformBrowser(this.platformId)) {
-      this.initLenis();
-      setTimeout(() => this.setupAnimations(), 300);
-    }
+    if (!isPlatformBrowser(this.platformId)) return;
+
+    // Register GSAP plugin only in browser
+    gsap.registerPlugin(ScrollTrigger);
+
+    this.initLenis();
+    // Small delay to let the DOM settle after hydration
+    requestAnimationFrame(() => {
+      this.setupAnimations();
+    });
   }
 
   ngOnDestroy() {
-    ScrollTrigger.getAll().forEach((st) => st.kill());
+    if (isPlatformBrowser(this.platformId)) {
+      ScrollTrigger.getAll().forEach((st) => st.kill());
+    }
     if (this.rafId) cancelAnimationFrame(this.rafId);
     this.lenis?.destroy();
   }
@@ -111,14 +120,28 @@ export class App implements AfterViewInit, OnDestroy {
       smoothWheel: true,
     });
 
+    // CRITICAL: Sync Lenis scroll with GSAP ScrollTrigger
+    // Without this, ScrollTrigger animations are desynchronized
+    this.lenis.on('scroll', ScrollTrigger.update);
+
+    // Use GSAP's ticker for optimal frame sync
+    gsap.ticker.add((time: number) => {
+      this.lenis?.raf(time * 1000);
+    });
+
+    // Also keep requestAnimationFrame as fallback for non-GSAP consumers
     const raf = (time: number) => {
-      this.lenis?.raf(time);
+      // Lenis RAF is driven by gsap.ticker, this is for components that
+      // depend on the Lenis RAF loop directly
       this.rafId = requestAnimationFrame(raf);
     };
     this.rafId = requestAnimationFrame(raf);
   }
 
   private setupAnimations() {
+    // Refresh ScrollTrigger after Lenis is initialized
+    ScrollTrigger.refresh();
+
     // PINNING en personajes
     const pinnedIds = ['section-alice', 'section-fiama', 'section-mica'];
     this.sections.forEach((ref) => {
@@ -127,10 +150,11 @@ export class App implements AfterViewInit, OnDestroy {
         ScrollTrigger.create({
           trigger: section,
           start: 'top top',
-          end: 'bottom top',
+          end: '+=100%',
           pin: true,
           pinSpacing: false,
           scrub: false,
+          markers: false, // set to true for debugging
         });
       }
     });

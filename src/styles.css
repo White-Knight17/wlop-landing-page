@@ -2,6 +2,39 @@
 
 @import 'tailwindcss';
 
+/* === GLOBAL RESET & BASE STYLES ===
+   These live in styles.css (NOT in a component CSS) because
+   component-scoped styles with Angular's emulated encapsulation
+   add attribute selectors (e.g. html[_ngcontent-xxx]) and
+   never actually match the real <html> / <body> elements.
+*/
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: auto;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #000;
+  color: #fff;
+  font-family:
+    'Inter',
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    Roboto,
+    sans-serif;
+}
+
 /* CSS Custom Properties for Accessibility */
 :root {
   /* Primary brand color */
