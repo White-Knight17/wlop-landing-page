@@ -1,14 +1,13 @@
 import {
   Component,
-  AfterViewInit,
+  afterNextRender,
   ViewChildren,
   QueryList,
   ElementRef,
   OnDestroy,
   Inject,
-  PLATFORM_ID,
 } from '@angular/core';
-import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { DOCUMENT } from '@angular/common';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -22,9 +21,6 @@ import { MicaComponent } from './components/mica/mica.component';
 import { CarrouselComponent } from './components/carrousel/carrousel.component';
 import { ContactoComponent } from './components/contacto/contacto.component';
 import { FooterComponent } from './components/footer/footer.component';
-
-// ⚠️ DO NOT register ScrollTrigger at module level — crashes SSR.
-// Registration happens inside ngAfterViewInit behind isPlatformBrowser.
 
 @Component({
   selector: 'app-root',
@@ -69,45 +65,37 @@ import { FooterComponent } from './components/footer/footer.component';
   `,
   styleUrl: './app.css',
 })
-export class App implements AfterViewInit, OnDestroy {
+export class App implements OnDestroy {
   @ViewChildren('section') sections!: QueryList<ElementRef>;
   private lenis: Lenis | null = null;
   private rafId: number | null = null;
 
-  constructor(
-    @Inject(DOCUMENT) private document: Document,
-    @Inject(PLATFORM_ID) private platformId: object,
-  ) {
-    if (isPlatformBrowser(this.platformId)) {
-      const script = this.document.createElement('script');
-      script.type = 'application/ld+json';
-      script.textContent = JSON.stringify({
-        '@context': 'https://schema.org',
-        '@type': 'Person',
-        name: 'WLOP',
-        url: 'https://wlop.art/',
+  constructor(@Inject(DOCUMENT) private document: Document) {
+    // Schema.org structured data — browser-only, no SSR needed
+    const script = this.document.createElement('script');
+    script.type = 'application/ld+json';
+    script.textContent = JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'Person',
+      name: 'WLOP',
+      url: 'https://wlop.art/',
+    });
+    this.document.head.appendChild(script);
+
+    // afterNextRender runs ONLY in the browser, after Angular finishes
+    // rendering the component and its children. Perfect for GSAP + Lenis.
+    afterNextRender(() => {
+      gsap.registerPlugin(ScrollTrigger);
+      this.initLenis();
+      // One RAF to let the DOM settle after hydration/render
+      requestAnimationFrame(() => {
+        this.setupAnimations();
       });
-      this.document.head.appendChild(script);
-    }
-  }
-
-  ngAfterViewInit() {
-    if (!isPlatformBrowser(this.platformId)) return;
-
-    // Register GSAP plugin only in browser
-    gsap.registerPlugin(ScrollTrigger);
-
-    this.initLenis();
-    // Small delay to let the DOM settle after hydration
-    requestAnimationFrame(() => {
-      this.setupAnimations();
     });
   }
 
   ngOnDestroy() {
-    if (isPlatformBrowser(this.platformId)) {
-      ScrollTrigger.getAll().forEach((st) => st.kill());
-    }
+    ScrollTrigger.getAll().forEach((st) => st.kill());
     if (this.rafId) cancelAnimationFrame(this.rafId);
     this.lenis?.destroy();
   }

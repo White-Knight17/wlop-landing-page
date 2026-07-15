@@ -5,10 +5,9 @@ import {
   ElementRef,
   ViewChild,
   AfterViewChecked,
-  Inject,
-  PLATFORM_ID,
+  afterNextRender,
 } from '@angular/core';
-import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-carrousel',
@@ -47,10 +46,10 @@ export class CarrouselComponent implements AfterViewChecked {
     'wlop-cr16.webp',
   ];
 
-  constructor(@Inject(PLATFORM_ID) private platformId: object) {
-    if (isPlatformBrowser(this.platformId)) {
+  constructor() {
+    afterNextRender(() => {
       this.checkScreenSize();
-    }
+    });
   }
 
   @HostListener('window:resize')

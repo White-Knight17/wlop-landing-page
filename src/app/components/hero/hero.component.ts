@@ -1,15 +1,12 @@
 import {
   Component,
-  OnInit,
+  afterNextRender,
   signal,
   ElementRef,
   ViewChild,
-  AfterViewInit,
   OnDestroy,
-  Inject,
-  PLATFORM_ID,
 } from '@angular/core';
-import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { CommonModule } from '@angular/common';
 
 interface Particle {
   x: number;
@@ -27,7 +24,7 @@ interface Particle {
   templateUrl: './hero.component.html',
   styleUrl: './hero.component.css',
 })
-export class HeroComponent implements OnInit, AfterViewInit, OnDestroy {
+export class HeroComponent implements OnDestroy {
   @ViewChild('particleCanvas') canvasRef!: ElementRef<HTMLCanvasElement>;
 
   showText = signal(false);
@@ -37,20 +34,18 @@ export class HeroComponent implements OnInit, AfterViewInit, OnDestroy {
   private canvas: HTMLCanvasElement | null = null;
   private boundResize: (() => void) | null = null;
 
-  constructor(@Inject(PLATFORM_ID) private platformId: object) {}
-
-  ngOnInit() {
-    if (isPlatformBrowser(this.platformId)) {
+  constructor() {
+    // afterNextRender runs ONLY in browser after Angular finishes rendering.
+    // ViewChild refs (canvasRef) are guaranteed to be available by this point.
+    afterNextRender(() => {
+      // Hero text fades in after 3s
       setTimeout(() => {
         this.showText.set(true);
       }, 3000);
-    }
-  }
 
-  ngAfterViewInit() {
-    if (isPlatformBrowser(this.platformId)) {
+      // Particle system initialization
       this.initParticles();
-    }
+    });
   }
 
   ngOnDestroy() {
